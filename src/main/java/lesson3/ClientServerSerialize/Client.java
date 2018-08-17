@@ -1,52 +1,68 @@
 package lesson3.ClientServerSerialize;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Client {
 
-    public static void main(String[] args) {
-        new Client();
+    public static void main(String[] args) throws Throwable {
+        Thread thread1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Client();
+                } catch (Throwable throwable){
+                    throwable.printStackTrace();
+                }
+            }
+        });
+        thread1.start();
+
     }
 
     private final String SERVER_ADDR = "localhost";
     private final int SERVER_PORT = 8189;
     private Socket sock;
-    private Scanner in;
+    private Scanner sc;
     private PrintWriter out;
 
-    public Client() {
-        try {
-            sock = new Socket(SERVER_ADDR, SERVER_PORT);
-            in = new Scanner(sock.getInputStream());
-            out = new PrintWriter(sock.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Client() throws Throwable {
+        sock = new Socket(SERVER_ADDR, SERVER_PORT);
+        Student s = new Student("Petr",50,15);
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(sock.getOutputStream()));
+             BufferedReader reader = new BufferedReader(new InputStreamReader(sock.getInputStream())))
+        {
+            //send message to server
+            while (true) {
+                ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("stud.ser"));
+                oos.writeObject(s);
+                oos.close();
+                if (new File("stud.ser").exists()){
+                    System.out.println("Object " + s.getClass().getName() + " was serialized.\n");
+                }
+                sc = new Scanner(System.in);
+                System.out.println("client: ");
+                writer.write("client: " + sc.nextLine());
+                writer.newLine();
+                writer.flush();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        if (in.hasNext()) {
-                            String w = in.nextLine();
-                            if (w.equalsIgnoreCase("end session")) break;
-                            System.out.println(w);
-                            System.out.println("\n");
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //get message from server
+                            System.out.println(reader.readLine());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                });
+                thread.start();
             }
-        }).start();
+        }
+
+
     }
 
-    public void sendMsg() {
-        out.println(in.next());
-        out.flush();
-    }
 }
