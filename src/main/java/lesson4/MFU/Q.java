@@ -3,10 +3,10 @@ package lesson4.MFU;
 public class Q {
 
     int n;
-    boolean valueSet = false;
+    boolean scanSet = false;
 
     synchronized int scan() {
-        while (!valueSet) {
+        while (!scanSet) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -19,13 +19,13 @@ public class Q {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        valueSet = false;
+        scanSet = false;
         notify();
         return n;
     }
 
     synchronized void print(int n) {
-        while (valueSet) {
+        while (scanSet) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -33,7 +33,7 @@ public class Q {
             }
         }
         this.n = n;
-        valueSet = true;
+        scanSet = true;
         try {
             Thread.sleep(50);
             System.out.println(" Напечатано : " + n + " страниц");

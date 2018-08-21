@@ -95,11 +95,11 @@ public class myThread {
     private static BufferedWriter bufferedWriter = null;
     private static String str = "В лесу родилась елочка";
 
-    public static synchronized void writeToFile() throws IOException {
+    public static void writeToFile() throws IOException {
         file.createNewFile();
         fileWriter = new FileWriter(file);
         bufferedWriter = new BufferedWriter(fileWriter);
-        Thread t1 = new Thread(new Runnable() {
+        final Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -117,6 +117,11 @@ public class myThread {
             }
         });
         t1.start();
+        try {
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Thread t2 = new Thread(new Runnable() {
             @Override
@@ -136,6 +141,11 @@ public class myThread {
             }
         });
         t2.start();
+        try {
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Thread t3 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -148,14 +158,19 @@ public class myThread {
                             e.printStackTrace();
                         }
                     }
-                    bufferedWriter.close();
-                    fileWriter.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
         t3.start();
+        try {
+            t3.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        bufferedWriter.close();
+        fileWriter.close();
         System.out.println("Запись в файл окончена");
     }
 
