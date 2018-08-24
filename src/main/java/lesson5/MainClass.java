@@ -1,6 +1,7 @@
 package lesson5;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 public class MainClass {
     public static final int CARS_COUNT = 4;

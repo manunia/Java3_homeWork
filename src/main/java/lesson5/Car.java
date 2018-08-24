@@ -1,9 +1,6 @@
 package lesson5;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Car implements Runnable{
     //создаем барьер для старта машин

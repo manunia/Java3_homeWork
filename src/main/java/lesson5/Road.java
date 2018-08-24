@@ -1,7 +1,5 @@
 package lesson5;
 
-import java.util.concurrent.Semaphore;
-
 public class Road extends Stage {
 
     public Road(int length) {
