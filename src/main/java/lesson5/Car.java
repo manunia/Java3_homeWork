@@ -1,10 +1,13 @@
 package lesson5;
 
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Car implements Runnable{
     //создаем барьер для старта машин
     private static CyclicBarrier cb = new CyclicBarrier(4);
+
+    private static AtomicInteger ai = new AtomicInteger(0);
 
     private static int CARS_COUNT;
     static {
@@ -18,7 +21,7 @@ public class Car implements Runnable{
         return speed;
     }
 
-    public String getName() {
+    public String getCarName() {
         return name;
     }
 
@@ -37,7 +40,7 @@ public class Car implements Runnable{
             System.out.println(this.name + " готов");
             MainClass.getCdl2().countDown();//уменьшаем счетчик ожидания готовности машин
             cb.await();
-
+            cb.await();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,5 +50,8 @@ public class Car implements Runnable{
         }
         MainClass.getCdl().countDown();//уменьшаем счетчик ожидания всех потоков
 
+        if (ai.incrementAndGet() == 1) {
+            System.out.println(this.name + " WIN");
+        }
     }
 }
