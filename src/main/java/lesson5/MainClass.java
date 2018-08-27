@@ -38,18 +38,24 @@ public class MainClass {
             e.printStackTrace();
         }
         System.out.println( "ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!" );
+
         try {
             cdl.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         //узнаем кто победитель
-        for (int i = 0; i < cars.length; i++) {
-            if (threads[i].getState() == Thread.State.TERMINATED) {
-                System.out.println(cars[i].getName() + " - WINNER!!!");
-                break;
-            }
-        }
+//        for (int i = 0; i < cars.length; i++) {
+//            if (!threads[i].isAlive()){
+//                System.out.println(threads[i].getState() + cars[i].getCarName());
+//            }
+////            if (threads[i].getState() == Thread.State.TERMINATED) {
+////                System.out.println(threads[i].getState() + cars[i].getCarName());
+////                //System.out.println(cars[i].getName() + " - WINNER!!!");
+////                //break;
+////            }
+//        }
 
         System.out.println( "ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!" );
     }
