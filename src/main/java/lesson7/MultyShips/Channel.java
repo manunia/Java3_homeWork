@@ -15,13 +15,13 @@ public class Channel extends Water {
     public void swim(Ship ship) {
         try {
             smp.acquire();
-            //System.out.println(ship.getProduct() + " приблизился к " + description);
-            //System.out.println(ship.getProduct() + " продплывает " + description);
-            Thread.sleep(length * 1000);
+            System.out.println(ship.getName() + " приблизился к " + description);
+            System.out.println(ship.getName() + " проплывает " + description);
+            Thread.sleep(length * 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            //System.out.println(ship.getProduct() + " вышел из " + description);
+            System.out.println(ship.getName() + " вышел из " + description);
         }
         smp.release();
 

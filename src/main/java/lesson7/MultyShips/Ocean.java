@@ -10,9 +10,9 @@ public class Ocean extends Water {
     @Override
     public void swim(Ship ship) {
         try {
-            //System.out.println(ship.getProduct() + " преодолевает " + description);
-            Thread.sleep(length * 1000);
-            //System.out.println(ship.getProduct() + " преодолел " + description);
+            System.out.println(ship.getName() + " преодолевает " + description);
+            Thread.sleep( length * 10);
+            System.out.println(ship.getName() + " преодолел " + description);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

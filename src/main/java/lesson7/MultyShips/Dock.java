@@ -4,7 +4,6 @@ public class Dock extends Water {
 
     private String product;
     private int productWeight;
-    private Ship ship;
 
     public void setProductWeight(int productWeight) {
         this.productWeight = productWeight;
@@ -16,26 +15,32 @@ public class Dock extends Water {
 
     }
 
-
     @Override
     public void swim(Ship ship) {
-        while (productWeight != 0) {
-            try {
-                //System.out.println(ship.getProduct() + " причалил.");
-                //System.out.println(ship.getProduct() + " начал загрузку.");
-                //while (ship.getCAPACITY() != 500) {
-                    Thread.sleep(1000);
-                    ship.setCAPACITY(ship.getCAPACITY() + 100);
-                    //productWeight -= ship.getCAPACITY();
-                    setProductWeight(productWeight - ship.getCAPACITY());
-                //}
-                //System.out.println(ship.getProduct() + " закончил загрузку.");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println(product + " погружен");
 
+        try {
+            System.out.println(ship.getName() + " причалил.");
+
+            System.out.println(ship.getName() + " начал загрузку " + product);
+            while (ship.getCAPACITY() != 500) {
+                Thread.sleep(1000);
+                ship.setCAPACITY(ship.getCAPACITY() + 100);
+            }
+            if (productWeight <= 500) {
+                ship.setCAPACITY(productWeight);
+            }
+            setProductWeight(productWeight - ship.getCAPACITY());
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        System.out.println(product + " осталось " + productWeight);
+        System.out.println(ship.getName() + " погружен " + product);
+//        try {
+//            cdl.await(10, TimeUnit.MILLISECONDS);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+    }
 
 }
