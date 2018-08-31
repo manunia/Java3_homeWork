@@ -8,7 +8,7 @@ public class ClassTest {
         System.out.println("Start");
     }
 
-    @MyTest(priority = 5)
+    @MyTest
     public static void test1() {
         System.out.println("testing ...");
     }
